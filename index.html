@@ -1,1 +1,70 @@
-
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#06122a">
+<title>Kulzzy Radio Daily Star</title>
+<style>
+:root{--navy:#06122a;--gold:#ffd700;--white:#fff;--muted:#aeb9cf;--line:#233452;--panel:#0b1b38}
+*{box-sizing:border-box}body{margin:0;background:var(--navy);color:var(--white);font:16px/1.5 Arial,Helvetica,sans-serif}
+header{padding:22px 16px;text-align:center;border-bottom:1px solid var(--line)}.brand{font-weight:900;letter-spacing:1px;color:var(--gold);font-size:clamp(22px,5vw,34px)}.tag{color:var(--muted);font-size:13px;margin-top:4px}
+main{max-width:1000px;margin:auto;padding:20px 14px 50px}.topline{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}h1{font-size:clamp(21px,4vw,29px);margin:0;color:var(--gold)}.small{font-size:13px;color:var(--muted)}
+#status{margin:16px 0;color:var(--muted);font-size:14px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:15px}.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden}.cover{width:100%;height:170px;object-fit:cover;background:#10213e;display:block}.cardbody{padding:15px}.card h2{font-size:20px;margin:0 0 8px;color:var(--gold);overflow-wrap:anywhere}.desc{color:#e3e8f2;white-space:pre-wrap;overflow-wrap:anywhere}.meta{font-size:13px;color:var(--muted);margin-top:12px;white-space:pre-wrap}.pill{display:inline-block;border:1px solid #665b00;color:var(--gold);border-radius:30px;padding:3px 9px;font-size:12px;margin-bottom:9px}.empty{padding:28px;border:1px dashed var(--line);border-radius:12px;color:var(--muted);text-align:center}.btn{display:inline-block;border:0;border-radius:7px;padding:10px 14px;background:var(--gold);color:#06122a;font-weight:800;text-decoration:none;cursor:pointer}.btn.secondary{background:transparent;border:1px solid var(--gold);color:var(--gold)}.btn.danger{background:#b42332;color:#fff}footer{text-align:center;border-top:1px solid var(--line);padding:18px;color:var(--gold);font-weight:800;letter-spacing:2px}
+dialog{max-width:680px;width:calc(100% - 24px);max-height:85vh;overflow:auto;border:1px solid var(--gold);border-radius:12px;background:var(--panel);color:#fff;padding:20px}dialog::backdrop{background:#000b}dialog h2{color:var(--gold)}.rules{white-space:pre-wrap}.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+</style>
+</head>
+<body>
+<header><div class="brand">KULZZY RADIO DAILY STAR</div><div class="tag">Kulzzy Radio Network · Celebrating Lives Everyday</div></header>
+<main>
+ <div class="topline"><h1>Current Competitions</h1><a class="btn secondary" href="admin.html">Admin Panel</a></div>
+ <div id="status">Loading published competitions…</div>
+ <section id="competitions" class="grid" aria-live="polite"></section>
+</main>
+<footer>STAY TUNED IN</footer>
+<dialog id="details"><button class="btn secondary" id="closeDetails" style="float:right">Close</button><div id="detailContent"></div></dialog>
+<script src="config.js"></script>
+<script>
+const API_BASE=(window.KULZZY_CONFIG?.API_BASE||"https://kulzzy-backend-core-rywavs.v2.appdeploy.ai").replace(/\/+$/,"");
+const API_PATH=window.KULZZY_CONFIG?.COMPETITIONS_PATH||"/api/competitions";
+const statusBox=document.getElementById("status"), list=document.getElementById("competitions");
+function esc(v=""){return String(v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function dateText(v){if(!v)return "Not set";const d=new Date(v);return isNaN(d)?esc(v):d.toLocaleDateString();}
+function published(p){return p.published===true||p.status==="published"||p.isPublished===true;}
+function cover(p){return p.coverImage||p.cover_image||p.imageUrl||p.image_url||"";}
+function render(items){
+ const visible=(Array.isArray(items)?items:[]).filter(p=>published(p));
+ statusBox.textContent=visible.length?`${visible.length} published competition${visible.length===1?"":"s"}.`:"There are no published competitions yet.";
+ list.innerHTML=visible.map((p,i)=>`<article class="card">
+ ${cover(p)?`<img class="cover" src="${esc(cover(p))}" alt="" loading="lazy" onerror="this.style.display='none'">`:""}
+ <div class="cardbody"><span class="pill">${esc(p.type||p.category||"Competition")}</span>
+ <h2>${esc(p.name||p.title||"Untitled competition")}</h2>
+ <div class="desc">${esc(p.description||"")}</div>
+ <div class="meta">Starts: ${dateText(p.startDate||p.start_date)}<br>Closes: ${dateText(p.endDate||p.end_date)}${(p.prizes||p.prize)?`<br>Prizes: ${esc(p.prizes||p.prize)}`:""}</div>
+ <div class="row"><button class="btn" data-detail="${i}">View details</button></div></div></article>`).join("");
+ if(!visible.length)list.innerHTML='<div class="empty">No competitions are published right now. Please check back later.</div>';
+ list.querySelectorAll("[data-detail]").forEach(b=>b.addEventListener("click",()=>showDetails(visible[+b.dataset.detail])));
+}
+function showDetails(p){
+ const c=document.getElementById("detailContent");
+ c.innerHTML=`<h2>${esc(p.name||p.title||"Competition")}</h2><p>${esc(p.description||"")}</p>
+ <h3>Rules</h3><div class="rules">${esc(p.rules||"Rules will be announced by the organizer.")}</div>
+ <h3>Prizes</h3><div class="rules">${esc(p.prizes||p.prize||"Details to be announced.")}</div>
+ <p class="small">Start: ${dateText(p.startDate||p.start_date)} · Closing: ${dateText(p.endDate||p.end_date)}</p>`;
+ document.getElementById("details").showModal();
+}
+document.getElementById("closeDetails").onclick=()=>document.getElementById("details").close();
+async function load(){
+ try{
+  const r=await fetch(API_BASE+API_PATH,{headers:{"Accept":"application/json"}});
+  if(!r.ok)throw new Error(`Backend returned HTTP ${r.status}`);
+  const data=await r.json();render(Array.isArray(data)?data:(data.competitions||data.items||data.data||[]));
+ }catch(e){
+  statusBox.textContent="Could not load competitions from Kulzzy Backend Core.";
+  list.innerHTML=`<div class="empty">The website is ready to request the shared competition list, but the backend API did not respond as expected.<br><br><span class="small">${esc(e.message)}<br>Expected endpoint: ${esc(API_BASE+API_PATH)}</span></div>`;
+ }
+}
+load();
+</script>
+</body>
+</html>
