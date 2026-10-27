@@ -1,70 +1,835 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#06122a">
-<title>Kulzzy Radio Daily Star</title>
-<style>
-:root{--navy:#06122a;--gold:#ffd700;--white:#fff;--muted:#aeb9cf;--line:#233452;--panel:#0b1b38}
-*{box-sizing:border-box}body{margin:0;background:var(--navy);color:var(--white);font:16px/1.5 Arial,Helvetica,sans-serif}
-header{padding:22px 16px;text-align:center;border-bottom:1px solid var(--line)}.brand{font-weight:900;letter-spacing:1px;color:var(--gold);font-size:clamp(22px,5vw,34px)}.tag{color:var(--muted);font-size:13px;margin-top:4px}
-main{max-width:1000px;margin:auto;padding:20px 14px 50px}.topline{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}h1{font-size:clamp(21px,4vw,29px);margin:0;color:var(--gold)}.small{font-size:13px;color:var(--muted)}
-#status{margin:16px 0;color:var(--muted);font-size:14px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:15px}.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden}.cover{width:100%;height:170px;object-fit:cover;background:#10213e;display:block}.cardbody{padding:15px}.card h2{font-size:20px;margin:0 0 8px;color:var(--gold);overflow-wrap:anywhere}.desc{color:#e3e8f2;white-space:pre-wrap;overflow-wrap:anywhere}.meta{font-size:13px;color:var(--muted);margin-top:12px;white-space:pre-wrap}.pill{display:inline-block;border:1px solid #665b00;color:var(--gold);border-radius:30px;padding:3px 9px;font-size:12px;margin-bottom:9px}.empty{padding:28px;border:1px dashed var(--line);border-radius:12px;color:var(--muted);text-align:center}.btn{display:inline-block;border:0;border-radius:7px;padding:10px 14px;background:var(--gold);color:#06122a;font-weight:800;text-decoration:none;cursor:pointer}.btn.secondary{background:transparent;border:1px solid var(--gold);color:var(--gold)}.btn.danger{background:#b42332;color:#fff}footer{text-align:center;border-top:1px solid var(--line);padding:18px;color:var(--gold);font-weight:800;letter-spacing:2px}
-dialog{max-width:680px;width:calc(100% - 24px);max-height:85vh;overflow:auto;border:1px solid var(--gold);border-radius:12px;background:var(--panel);color:#fff;padding:20px}dialog::backdrop{background:#000b}dialog h2{color:var(--gold)}.rules{white-space:pre-wrap}.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#06122a">
+
+  <title>Kulzzy Radio Daily Star</title>
+
+  <meta name="description" content="Discover competitions, awards, challenges and special events from Kulzzy Radio Daily Star.">
+
+  <style>
+    :root {
+      --navy: #06122a;
+      --navy-light: #0c2045;
+      --gold: #ffd700;
+      --white: #ffffff;
+      --muted: #b9c4d9;
+      --panel: #0b1935;
+      --border: rgba(255, 215, 0, 0.25);
+      --green: #29c77a;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--navy);
+      color: var(--white);
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.6;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    .topbar {
+      background: #030b1b;
+      border-bottom: 2px solid var(--gold);
+      padding: 16px;
+      text-align: center;
+    }
+
+    .brand {
+      margin: 0;
+      color: var(--gold);
+      font-size: clamp(23px, 5vw, 34px);
+      font-weight: 900;
+      letter-spacing: 1px;
+    }
+
+    .brand-subtitle {
+      margin: 4px 0 0;
+      color: var(--white);
+      font-size: 13px;
+      letter-spacing: 2px;
+    }
+
+    .hero {
+      padding: 42px 18px;
+      text-align: center;
+      background:
+        radial-gradient(ellipse at top, #173362 0%, #06122a 70%);
+    }
+
+    .hero h2 {
+      margin: 0 auto 12px;
+      max-width: 800px;
+      color: var(--gold);
+      font-size: clamp(27px, 6vw, 44px);
+      line-height: 1.2;
+    }
+
+    .hero p {
+      max-width: 650px;
+      margin: 0 auto;
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    .hero-label {
+      display: inline-block;
+      margin-bottom: 14px;
+      padding: 5px 12px;
+      border: 1px solid var(--border);
+      border-radius: 30px;
+      color: var(--gold);
+      font-size: 12px;
+      font-weight: bold;
+      letter-spacing: 1.5px;
+    }
+
+    .main {
+      width: 100%;
+      max-width: 1200px;
+      margin: auto;
+      padding: 22px 15px 45px;
+    }
+
+    .section-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .section-heading h2 {
+      margin: 0;
+      color: var(--gold);
+      font-size: 23px;
+    }
+
+    .refresh-button {
+      border: 1px solid var(--gold);
+      border-radius: 7px;
+      padding: 9px 14px;
+      background: transparent;
+      color: var(--gold);
+      cursor: pointer;
+    }
+
+    .refresh-button:disabled {
+      opacity: 0.5;
+      cursor: wait;
+    }
+
+    .notice {
+      display: none;
+      margin: 15px 0;
+      padding: 14px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--panel);
+      color: var(--muted);
+      overflow-wrap: anywhere;
+    }
+
+    .notice.error {
+      border-color: #ff6b6b;
+      color: #ffd0d0;
+    }
+
+    .notice.success {
+      border-color: var(--green);
+      color: #baffd8;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      background: var(--panel);
+      box-shadow: 0 7px 22px rgba(0, 0, 0, 0.18);
+    }
+
+    .cover {
+      width: 100%;
+      height: 205px;
+      object-fit: cover;
+      background: #142343;
+      display: block;
+    }
+
+    .cover-placeholder {
+      height: 170px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #10264d, #030b1b);
+      color: var(--gold);
+      font-size: 43px;
+      font-weight: 900;
+    }
+
+    .card-content {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      padding: 16px;
+    }
+
+    .card-type {
+      display: inline-block;
+      align-self: flex-start;
+      margin-bottom: 9px;
+      padding: 4px 9px;
+      border-radius: 20px;
+      background: rgba(255, 215, 0, 0.12);
+      color: var(--gold);
+      font-size: 11px;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    .card h3 {
+      margin: 0 0 10px;
+      font-size: 20px;
+      line-height: 1.35;
+      overflow-wrap: anywhere;
+    }
+
+    .description {
+      margin: 0 0 13px;
+      color: var(--muted);
+      font-size: 14px;
+      overflow-wrap: anywhere;
+      white-space: pre-line;
+    }
+
+    .dates {
+      margin: 0 0 15px;
+      color: #d5dced;
+      font-size: 12px;
+    }
+
+    .dates div {
+      margin: 4px 0;
+    }
+
+    .card-button {
+      width: 100%;
+      margin-top: auto;
+      padding: 12px;
+      border: none;
+      border-radius: 7px;
+      background: var(--gold);
+      color: #06122a;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .card-button:active,
+    .refresh-button:active {
+      transform: scale(0.98);
+    }
+
+    .empty {
+      padding: 35px 18px;
+      border: 1px dashed var(--border);
+      border-radius: 12px;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    .empty h3 {
+      margin-top: 0;
+      color: var(--gold);
+    }
+
+    .loading {
+      padding: 35px 15px;
+      text-align: center;
+      color: var(--gold);
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+      margin-bottom: 10px;
+      border: 3px solid rgba(255, 215, 0, 0.2);
+      border-top-color: var(--gold);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .footer {
+      padding: 25px 15px;
+      border-top: 1px solid var(--border);
+      background: #030b1b;
+      text-align: center;
+    }
+
+    .footer strong {
+      color: var(--gold);
+      letter-spacing: 2px;
+    }
+
+    .footer p {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    /* DETAILS MODAL */
+
+    .modal {
+      position: fixed;
+      z-index: 1000;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 15px;
+      background: rgba(0, 0, 0, 0.82);
+    }
+
+    .modal.open {
+      display: flex;
+    }
+
+    .modal-box {
+      position: relative;
+      width: 100%;
+      max-width: 700px;
+      max-height: 90vh;
+      overflow-y: auto;
+      border: 1px solid var(--gold);
+      border-radius: 13px;
+      background: var(--navy);
+    }
+
+    .modal-cover {
+      display: none;
+      width: 100%;
+      max-height: 300px;
+      object-fit: cover;
+      background: #10264d;
+    }
+
+    .modal-body {
+      padding: 20px;
+    }
+
+    .modal-title {
+      margin: 0 35px 10px 0;
+      color: var(--gold);
+      font-size: 25px;
+      line-height: 1.3;
+      overflow-wrap: anywhere;
+    }
+
+    .modal-type {
+      color: var(--gold);
+      font-size: 12px;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    .modal-section {
+      margin-top: 20px;
+    }
+
+    .modal-section h4 {
+      margin: 0 0 6px;
+      color: var(--gold);
+      font-size: 16px;
+    }
+
+    .modal-section p {
+      margin: 0;
+      color: #e1e7f2;
+      white-space: pre-line;
+      overflow-wrap: anywhere;
+    }
+
+    .close-button {
+      position: absolute;
+      z-index: 2;
+      top: 10px;
+      right: 10px;
+      width: 38px;
+      height: 38px;
+      border: 1px solid var(--gold);
+      border-radius: 50%;
+      background: #030b1b;
+      color: var(--gold);
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    @media (max-width: 850px) {
+      .grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 560px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .cover {
+        height: 220px;
+      }
+
+      .hero {
+        padding: 32px 16px;
+      }
+
+      .main {
+        padding-left: 12px;
+        padding-right: 12px;
+      }
+
+      .modal-body {
+        padding: 16px;
+      }
+    }
+  </style>
 </head>
+
 <body>
-<header><div class="brand">KULZZY RADIO DAILY STAR</div><div class="tag">Kulzzy Radio Network · Celebrating Lives Everyday</div></header>
-<main>
- <div class="topline"><h1>Current Competitions</h1><a class="btn secondary" href="admin.html">Admin Panel</a></div>
- <div id="status">Loading published competitions…</div>
- <section id="competitions" class="grid" aria-live="polite"></section>
-</main>
-<footer>STAY TUNED IN</footer>
-<dialog id="details"><button class="btn secondary" id="closeDetails" style="float:right">Close</button><div id="detailContent"></div></dialog>
-<script src="config.js"></script>
-<script>
-const API_BASE=(window.KULZZY_CONFIG?.API_BASE||"https://kulzzy-backend-core-rywavs.v2.appdeploy.ai").replace(/\/+$/,"");
-const API_PATH=window.KULZZY_CONFIG?.COMPETITIONS_PATH||"/api/competitions";
-const statusBox=document.getElementById("status"), list=document.getElementById("competitions");
-function esc(v=""){return String(v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
-function dateText(v){if(!v)return "Not set";const d=new Date(v);return isNaN(d)?esc(v):d.toLocaleDateString();}
-function published(p){return p.published===true||p.status==="published"||p.isPublished===true;}
-function cover(p){return p.coverImage||p.cover_image||p.imageUrl||p.image_url||"";}
-function render(items){
- const visible=(Array.isArray(items)?items:[]).filter(p=>published(p));
- statusBox.textContent=visible.length?`${visible.length} published competition${visible.length===1?"":"s"}.`:"There are no published competitions yet.";
- list.innerHTML=visible.map((p,i)=>`<article class="card">
- ${cover(p)?`<img class="cover" src="${esc(cover(p))}" alt="" loading="lazy" onerror="this.style.display='none'">`:""}
- <div class="cardbody"><span class="pill">${esc(p.type||p.category||"Competition")}</span>
- <h2>${esc(p.name||p.title||"Untitled competition")}</h2>
- <div class="desc">${esc(p.description||"")}</div>
- <div class="meta">Starts: ${dateText(p.startDate||p.start_date)}<br>Closes: ${dateText(p.endDate||p.end_date)}${(p.prizes||p.prize)?`<br>Prizes: ${esc(p.prizes||p.prize)}`:""}</div>
- <div class="row"><button class="btn" data-detail="${i}">View details</button></div></div></article>`).join("");
- if(!visible.length)list.innerHTML='<div class="empty">No competitions are published right now. Please check back later.</div>';
- list.querySelectorAll("[data-detail]").forEach(b=>b.addEventListener("click",()=>showDetails(visible[+b.dataset.detail])));
-}
-function showDetails(p){
- const c=document.getElementById("detailContent");
- c.innerHTML=`<h2>${esc(p.name||p.title||"Competition")}</h2><p>${esc(p.description||"")}</p>
- <h3>Rules</h3><div class="rules">${esc(p.rules||"Rules will be announced by the organizer.")}</div>
- <h3>Prizes</h3><div class="rules">${esc(p.prizes||p.prize||"Details to be announced.")}</div>
- <p class="small">Start: ${dateText(p.startDate||p.start_date)} · Closing: ${dateText(p.endDate||p.end_date)}</p>`;
- document.getElementById("details").showModal();
-}
-document.getElementById("closeDetails").onclick=()=>document.getElementById("details").close();
-async function load(){
- try{
-  const r=await fetch(API_BASE+API_PATH,{headers:{"Accept":"application/json"}});
-  if(!r.ok)throw new Error(`Backend returned HTTP ${r.status}`);
-  const data=await r.json();render(Array.isArray(data)?data:(data.competitions||data.items||data.data||[]));
- }catch(e){
-  statusBox.textContent="Could not load competitions from Kulzzy Backend Core.";
-  list.innerHTML=`<div class="empty">The website is ready to request the shared competition list, but the backend API did not respond as expected.<br><br><span class="small">${esc(e.message)}<br>Expected endpoint: ${esc(API_BASE+API_PATH)}</span></div>`;
- }
-}
-load();
-</script>
+
+  <header class="topbar">
+    <h1 class="brand">KULZZY RADIO</h1>
+    <p class="brand-subtitle">DAILY STAR</p>
+  </header>
+
+  <section class="hero">
+    <span class="hero-label">COMPETITIONS • AWARDS • EVENTS</span>
+    <h2>Welcome to Kulzzy Radio Daily Star</h2>
+    <p>
+      Discover our competitions, awards, challenges and special events.
+      Open any published event to read its details, rules and prizes.
+    </p>
+  </section>
+
+  <main class="main">
+    <div class="section-heading">
+      <h2>Published Competitions & Events</h2>
+      <button id="refreshButton" class="refresh-button" type="button">
+        ↻ Refresh
+      </button>
+    </div>
+
+    <div id="notice" class="notice" role="status" aria-live="polite"></div>
+
+    <div id="loading" class="loading">
+      <span class="spinner"></span>
+      <div>Loading competitions and events...</div>
+    </div>
+
+    <div id="competitionGrid" class="grid"></div>
+
+    <div id="emptyState" class="empty" style="display:none;">
+      <h3>No Published Competitions Yet</h3>
+      <p>
+        New competitions and events will appear here when Kulzzy Radio
+        publishes them.
+      </p>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <strong>STAY TUNED IN</strong>
+    <p>Kulzzy Radio Daily Star · Celebrating Lives Everyday</p>
+  </footer>
+
+  <!-- DETAILS MODAL -->
+
+  <div id="detailsModal" class="modal" role="dialog"
+       aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-box">
+      <button id="closeModal" class="close-button"
+              type="button" aria-label="Close details">&times;</button>
+
+      <img id="modalCover" class="modal-cover" alt="Competition cover">
+
+      <div class="modal-body">
+        <div id="modalType" class="modal-type"></div>
+        <h2 id="modalTitle" class="modal-title"></h2>
+
+        <div class="modal-section">
+          <h4>About This Event</h4>
+          <p id="modalDescription"></p>
+        </div>
+
+        <div class="modal-section">
+          <h4>Competition Dates</h4>
+          <p id="modalDates"></p>
+        </div>
+
+        <div class="modal-section">
+          <h4>Prizes</h4>
+          <p id="modalPrizes"></p>
+        </div>
+
+        <div class="modal-section">
+          <h4>Rules & Requirements</h4>
+          <p id="modalRules"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Configuration must load before the application code. -->
+  <script src="./config.js"></script>
+
+  <!-- Supabase JavaScript client -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+    "use strict";
+
+    (function () {
+      const grid = document.getElementById("competitionGrid");
+      const loading = document.getElementById("loading");
+      const emptyState = document.getElementById("emptyState");
+      const notice = document.getElementById("notice");
+      const refreshButton = document.getElementById("refreshButton");
+
+      const modal = document.getElementById("detailsModal");
+      const closeModalButton = document.getElementById("closeModal");
+      const modalCover = document.getElementById("modalCover");
+
+      let supabaseClient = null;
+      let competitionRecords = [];
+
+      function showNotice(message, type) {
+        notice.textContent = message;
+        notice.className = "notice" + (type ? " " + type : "");
+        notice.style.display = "block";
+      }
+
+      function hideNotice() {
+        notice.textContent = "";
+        notice.style.display = "none";
+        notice.className = "notice";
+      }
+
+      function safeText(value, fallback) {
+        if (value === null || value === undefined || value === "") {
+          return fallback || "";
+        }
+        return String(value);
+      }
+
+      function formatDate(value) {
+        if (!value) return "Not specified";
+
+        const date = new Date(value + (
+          /^\d{4}-\d{2}-\d{2}$/.test(String(value)) ? "T00:00:00" : ""
+        ));
+
+        if (Number.isNaN(date.getTime())) {
+          return String(value);
+        }
+
+        return date.toLocaleDateString("en-NG", {
+          day: "numeric",
+          month: "short",
+          year: "numeric"
+        });
+      }
+
+      function addTextElement(parent, tag, className, text) {
+        const element = document.createElement(tag);
+
+        if (className) {
+          element.className = className;
+        }
+
+        element.textContent = text;
+        parent.appendChild(element);
+        return element;
+      }
+
+      function getCover(record) {
+        return safeText(
+          record.cover_image ||
+          record.coverImage ||
+          record.image_url ||
+          record.imageUrl,
+          ""
+        ).trim();
+      }
+
+      function getName(record) {
+        return safeText(record.name || record.title, "Untitled Competition");
+      }
+
+      function getType(record) {
+        return safeText(record.type || record.category, "General");
+      }
+
+      function getDescription(record) {
+        return safeText(record.description, "Details will be announced soon.");
+      }
+
+      function createCompetitionCard(record, index) {
+        const card = document.createElement("article");
+        card.className = "card";
+
+        const coverUrl = getCover(record);
+
+        if (coverUrl) {
+          const image = document.createElement("img");
+          image.className = "cover";
+          image.alt = getName(record) + " cover image";
+          image.loading = "lazy";
+          image.src = coverUrl;
+
+          image.addEventListener("error", function () {
+            const placeholder = document.createElement("div");
+            placeholder.className = "cover-placeholder";
+            placeholder.textContent = "KR";
+            image.replaceWith(placeholder);
+          });
+
+          card.appendChild(image);
+        } else {
+          const placeholder = document.createElement("div");
+          placeholder.className = "cover-placeholder";
+          placeholder.textContent = "KR";
+          card.appendChild(placeholder);
+        }
+
+        const content = document.createElement("div");
+        content.className = "card-content";
+
+        addTextElement(content, "span", "card-type", getType(record));
+        addTextElement(content, "h3", "", getName(record));
+
+        addTextElement(
+          content,
+          "p",
+          "description",
+          getDescription(record)
+        );
+
+        const dates = document.createElement("div");
+        dates.className = "dates";
+
+        addTextElement(
+          dates,
+          "div",
+          "",
+          "Starts: " + formatDate(record.start_date || record.startDate)
+        );
+
+        addTextElement(
+          dates,
+          "div",
+          "",
+          "Ends: " + formatDate(record.end_date || record.endDate)
+        );
+
+        content.appendChild(dates);
+
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "card-button";
+        button.textContent = "VIEW DETAILS";
+
+        button.addEventListener("click", function () {
+          openDetails(index);
+        });
+
+        content.appendChild(button);
+        card.appendChild(content);
+
+        return card;
+      }
+
+      function renderCompetitions(records) {
+        grid.replaceChildren();
+        emptyState.style.display = "none";
+
+        if (!records.length) {
+          emptyState.style.display = "block";
+          return;
+        }
+
+        const fragment = document.createDocumentFragment();
+
+        records.forEach(function (record, index) {
+          fragment.appendChild(createCompetitionCard(record, index));
+        });
+
+        grid.appendChild(fragment);
+      }
+
+      function openDetails(index) {
+        const record = competitionRecords[index];
+
+        if (!record) return;
+
+        document.getElementById("modalTitle").textContent = getName(record);
+        document.getElementById("modalType").textContent = getType(record);
+        document.getElementById("modalDescription").textContent =
+          safeText(record.description, "No description has been provided.");
+
+        document.getElementById("modalDates").textContent =
+          "Start date: " +
+          formatDate(record.start_date || record.startDate) +
+          "\nEnd date: " +
+          formatDate(record.end_date || record.endDate) +
+          "\nResults date: " +
+          formatDate(record.result_date || record.resultDate);
+
+        document.getElementById("modalPrizes").textContent =
+          safeText(record.prizes || record.prize, "Prize details will be announced.");
+
+        document.getElementById("modalRules").textContent =
+          safeText(record.rules, "No additional rules have been provided.");
+
+        const coverUrl = getCover(record);
+
+        if (coverUrl) {
+          modalCover.src = coverUrl;
+          modalCover.style.display = "block";
+          modalCover.onerror = function () {
+            modalCover.style.display = "none";
+          };
+        } else {
+          modalCover.removeAttribute("src");
+          modalCover.style.display = "none";
+        }
+
+        modal.classList.add("open");
+        document.body.style.overflow = "hidden";
+        closeModalButton.focus();
+      }
+
+      function closeModal() {
+        modal.classList.remove("open");
+        document.body.style.overflow = "";
+      }
+
+      async function loadCompetitions() {
+        loading.style.display = "block";
+        grid.replaceChildren();
+        emptyState.style.display = "none";
+        hideNotice();
+
+        refreshButton.disabled = true;
+
+        try {
+          if (!window.KULZZY_CONFIG) {
+            throw new Error(
+              "Configuration was not loaded. Check that config.js is saved in the repository."
+            );
+          }
+
+          if (
+            !window.KULZZY_CONFIG.SUPABASE_URL ||
+            !window.KULZZY_CONFIG.SUPABASE_PUBLISHABLE_KEY
+          ) {
+            throw new Error(
+              "Supabase settings are missing from config.js. Check the URL and publishable key."
+            );
+          }
+
+          if (!window.supabase || !window.supabase.createClient) {
+            throw new Error(
+              "The Supabase library could not load. Check your internet connection and refresh."
+            );
+          }
+
+          if (!supabaseClient) {
+            supabaseClient = window.supabase.createClient(
+              window.KULZZY_CONFIG.SUPABASE_URL,
+              window.KULZZY_CONFIG.SUPABASE_PUBLISHABLE_KEY
+            );
+          }
+
+          const result = await supabaseClient
+            .from("competitions")
+            .select("*")
+            .eq("published", true)
+            .eq("status", "published")
+            .order("created_at", { ascending: false });
+
+          if (result.error) {
+            throw result.error;
+          }
+
+          competitionRecords = result.data || [];
+          renderCompetitions(competitionRecords);
+
+        } catch (error) {
+          console.error("Daily Star loading error:", error);
+
+          competitionRecords = [];
+
+          showNotice(
+            "We could not load competitions right now. " +
+            "Please check your internet connection and refresh. " +
+            "If the problem continues, check the Supabase table and access policies. " +
+            "Details: " + safeText(error.message, "Unknown error"),
+            "error"
+          );
+
+        } finally {
+          loading.style.display = "none";
+          refreshButton.disabled = false;
+        }
+      }
+
+      refreshButton.addEventListener("click", loadCompetitions);
+      closeModalButton.addEventListener("click", closeModal);
+
+      modal.addEventListener("click", function (event) {
+        if (event.target === modal) {
+          closeModal();
+        }
+      });
+
+      document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape" && modal.classList.contains("open")) {
+          closeModal();
+        }
+      });
+
+      loadCompetitions();
+    })();
+  </script>
+
 </body>
 </html>
