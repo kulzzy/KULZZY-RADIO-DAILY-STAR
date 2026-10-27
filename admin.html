@@ -1,95 +1,1223 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#06122a">
-<title>Daily Star Admin | Kulzzy Radio</title>
-<style>
-:root{--navy:#06122a;--gold:#ffd700;--white:#fff;--muted:#aeb9cf;--line:#233452;--panel:#0b1b38}
-*{box-sizing:border-box}body{margin:0;background:var(--navy);color:var(--white);font:16px/1.5 Arial,Helvetica,sans-serif}header{text-align:center;padding:20px 12px;border-bottom:1px solid var(--line)}.brand{color:var(--gold);font-size:clamp(21px,5vw,30px);font-weight:900}.tag{color:var(--muted);font-size:13px}main{max-width:900px;margin:auto;padding:18px 13px 50px}h1,h2{color:var(--gold)}.panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px;margin:15px 0}.hidden{display:none!important}.btn{border:0;border-radius:7px;padding:10px 14px;background:var(--gold);color:#06122a;font-weight:800;cursor:pointer}.btn.secondary{background:transparent;border:1px solid var(--gold);color:var(--gold)}.btn.danger{background:#b42332;color:white}.row{display:flex;gap:9px;flex-wrap:wrap;align-items:center}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}label{display:block;color:#e6ebf5;font-size:14px;margin:12px 0 5px}input,textarea,select{width:100%;padding:11px;border-radius:7px;border:1px solid #425271;background:#06122a;color:#fff;font:inherit}textarea{min-height:95px;resize:vertical}.fieldgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}.small{font-size:13px;color:var(--muted)}.notice{padding:12px;border-radius:8px;background:#172743;color:#fff;white-space:pre-wrap;overflow-wrap:anywhere}.item{border:1px solid var(--line);border-radius:9px;padding:13px}.item h3{margin:0 0 7px;color:var(--gold)}.error{color:#ff9e9e}.success{color:#b3f4c6}footer{text-align:center;color:var(--gold);padding:18px;letter-spacing:2px}
-</style></head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#06122a">
+
+  <title>Daily Star Admin | Kulzzy Radio</title>
+
+  <style>
+    :root {
+      --navy: #06122a;
+      --navy2: #0c2045;
+      --gold: #ffd700;
+      --white: #fff;
+      --muted: #b9c4d9;
+      --border: rgba(255, 215, 0, .25);
+      --green: #29c77a;
+      --red: #ff6464;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--navy);
+      color: var(--white);
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.5;
+    }
+
+    button, input, select, textarea {
+      font: inherit;
+    }
+
+    .header {
+      padding: 20px 15px;
+      text-align: center;
+      background: #030b1b;
+      border-bottom: 2px solid var(--gold);
+    }
+
+    .header h1 {
+      margin: 0;
+      color: var(--gold);
+      font-size: clamp(22px, 5vw, 32px);
+    }
+
+    .header p {
+      margin: 5px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1050px;
+      margin: auto;
+      padding: 20px 13px 45px;
+    }
+
+    .panel {
+      margin-bottom: 20px;
+      padding: 18px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: #0b1935;
+    }
+
+    .panel h2 {
+      margin: 0 0 15px;
+      color: var(--gold);
+      font-size: 22px;
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .field {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      color: #e4eaf5;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    input, select, textarea {
+      display: block;
+      width: 100%;
+      min-height: 44px;
+      padding: 11px;
+      border: 1px solid #344667;
+      border-radius: 7px;
+      outline: none;
+      background: #06122a;
+      color: #fff;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--gold);
+    }
+
+    textarea {
+      min-height: 110px;
+      resize: vertical;
+    }
+
+    input[type="checkbox"] {
+      display: inline-block;
+      width: 20px;
+      min-height: 20px;
+      margin: 0;
+      accent-color: var(--gold);
+    }
+
+    .checkbox-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .check-item {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 10px;
+      border: 1px solid #344667;
+      border-radius: 7px;
+      color: #e4eaf5;
+      font-size: 13px;
+    }
+
+    .check-item label {
+      margin: 0;
+      font-weight: normal;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0 15px;
+    }
+
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 43px;
+      padding: 10px 15px;
+      border: 1px solid var(--gold);
+      border-radius: 7px;
+      background: var(--gold);
+      color: #06122a;
+      font-weight: bold;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .btn.secondary {
+      background: transparent;
+      color: var(--gold);
+    }
+
+    .btn.danger {
+      border-color: var(--red);
+      background: var(--red);
+      color: #190000;
+    }
+
+    .btn:disabled {
+      opacity: .55;
+      cursor: wait;
+    }
+
+    .message {
+      display: none;
+      margin: 14px 0;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      overflow-wrap: anywhere;
+    }
+
+    .message.error {
+      display: block;
+      border-color: var(--red);
+      color: #ffd0d0;
+    }
+
+    .message.success {
+      display: block;
+      border-color: var(--green);
+      color: #baffd8;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .account-line {
+      overflow-wrap: anywhere;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .competition {
+      margin-top: 13px;
+      padding: 15px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      background: #06122a;
+    }
+
+    .competition h3 {
+      margin: 0 0 7px;
+      color: var(--gold);
+      overflow-wrap: anywhere;
+    }
+
+    .competition p {
+      margin: 5px 0;
+      color: var(--muted);
+      font-size: 13px;
+      overflow-wrap: anywhere;
+    }
+
+    .badge {
+      display: inline-block;
+      margin-bottom: 8px;
+      padding: 3px 8px;
+      border-radius: 20px;
+      background: #182e50;
+      color: var(--gold);
+      font-size: 11px;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    .footer {
+      padding: 22px 10px;
+      border-top: 1px solid var(--border);
+      background: #030b1b;
+      text-align: center;
+      color: var(--gold);
+      letter-spacing: 2px;
+      font-weight: bold;
+    }
+
+    @media (max-width: 600px) {
+      .grid, .checkbox-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .panel {
+        padding: 14px;
+      }
+
+      .btn {
+        flex: 1 1 auto;
+      }
+    }
+  </style>
+</head>
+
 <body>
-<header><div class="brand">KULZZY RADIO DAILY STAR</div><div class="tag">Competition Admin Panel</div></header>
-<main>
-<div class="row" style="justify-content:space-between"><h1>Admin Panel</h1><a class="btn secondary" href="index.html">View Main Page</a></div>
-<div class="notice">This panel is designed to save competitions to Kulzzy Backend Core. The backend must provide the API routes described in README.txt. This page does not use browser-only storage as a substitute for shared data.</div>
-<section id="login" class="panel">
-<h2>Admin access</h2><p class="small">Sign in using the admin access token configured for your backend.</p>
-<label for="token">Admin API token</label><input id="token" type="password" autocomplete="current-password" placeholder="Paste admin token">
-<div class="row" style="margin-top:14px"><button class="btn" id="loginBtn">Connect to Backend</button></div><p id="loginMsg" class="small"></p>
-</section>
-<section id="app" class="hidden">
-<div class="panel">
-<div class="row" style="justify-content:space-between"><h2 id="formTitle">Create competition</h2><button class="btn secondary" id="newBtn">+ New competition</button></div>
-<form id="form">
-<input type="hidden" id="id">
-<div class="fieldgrid">
-<div><label for="name">Competition name *</label><input id="name" required maxlength="140" placeholder="e.g. Daily Birthday Star"></div>
-<div><label for="type">Competition type *</label><select id="type" required><option value="General">General competition</option><option>Birthday</option><option>Music</option><option>Dance</option><option>Comedy</option><option>Talent</option><option>Business</option><option>Content Creator</option><option>DJ</option><option>Other</option></select></div>
-<div><label for="startDate">Start date</label><input id="startDate" type="date"></div>
-<div><label for="endDate">Closing date</label><input id="endDate" type="date"></div>
-<div><label for="resultDate">Results announcement date</label><input id="resultDate" type="date"></div>
-<div><label for="status">Publication status</label><select id="status"><option value="draft">Draft (hidden from public)</option><option value="published">Published (visible on main page)</option><option value="closed">Closed</option><option value="cancelled">Cancelled</option></select></div>
-</div>
-<label for="description">Description</label><textarea id="description" placeholder="Explain the competition"></textarea>
-<label for="coverImage">Cover picture URL</label><input id="coverImage" type="url" placeholder="https://...">
-<p class="small">The image URL field is used until an authenticated backend image-upload endpoint is connected.</p>
-<label for="rules">Competition rules</label><textarea id="rules" placeholder="Enter the rules"></textarea>
-<label for="prizes">Prizes</label><textarea id="prizes" placeholder="First prize, second prize, third prize, consolation prizes"></textarea>
-<div class="fieldgrid">
-<div><label for="entryFee">Entry fee (NGN)</label><input id="entryFee" type="number" min="0" step="1" value="0"></div>
-<div><label for="votePrice">Price per vote (NGN)</label><input id="votePrice" type="number" min="0" step="1" value="0"></div>
-<div><label for="maxEntries">Maximum contestants (0 = no limit)</label><input id="maxEntries" type="number" min="0" step="1" value="0"></div>
-<div><label for="winnerCount">Number of winners</label><input id="winnerCount" type="number" min="1" step="1" value="3"></div>
-</div>
-<h2>Enable competition features</h2>
-<div class="fieldgrid">
-<div><label for="registrationEnabled">Contestant registration</label><select id="registrationEnabled"><option value="true">Enabled</option><option value="false">Disabled</option></select></div>
-<div><label for="photoUploadEnabled">Photo uploads</label><select id="photoUploadEnabled"><option value="true">Enabled</option><option value="false">Disabled</option></select></div>
-<div><label for="audioUploadEnabled">Song/audio uploads</label><select id="audioUploadEnabled"><option value="false">Disabled</option><option value="true">Enabled</option></select></div>
-<div><label for="videoUploadEnabled">Video uploads</label><select id="videoUploadEnabled"><option value="false">Disabled</option><option value="true">Enabled</option></select></div>
-<div><label for="votingEnabled">Voting</label><select id="votingEnabled"><option value="false">Disabled</option><option value="true">Enabled</option></select></div>
-<div><label for="paymentEnabled">Online payments</label><select id="paymentEnabled"><option value="false">Disabled</option><option value="true">Enabled</option></select></div>
-<div><label for="publicResults">Show results publicly</label><select id="publicResults"><option value="true">Yes</option><option value="false">No</option></select></div>
-<div><label for="notes">Admin notes (not for public)</label><input id="notes" placeholder="Internal notes"></div>
-</div>
-<div class="row" style="margin-top:18px"><button class="btn" id="saveBtn" type="submit">Save competition</button><button class="btn secondary" type="button" id="resetBtn">Clear form</button></div>
-<p id="saveMsg" class="small"></p>
-</form>
-</div>
-<div class="panel"><div class="row" style="justify-content:space-between"><h2>All competitions</h2><button class="btn secondary" id="refreshBtn">Refresh list</button></div><div id="listMsg" class="small"></div><div id="items" class="grid"></div></div>
-</section>
-</main><footer>STAY TUNED IN</footer>
-<script src="config.js"></script>
-<script>
-const API_BASE=(window.KULZZY_CONFIG?.API_BASE||"https://kulzzy-backend-core-rywavs.v2.appdeploy.ai").replace(/\/+$/,"");
-const API_PATH=window.KULZZY_CONFIG?.COMPETITIONS_PATH||"/api/competitions";
-let token="",records=[];
-const $=id=>document.getElementById(id);
-function esc(v=""){return String(v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
-function message(id,s,kind=""){ $(id).textContent=s;$(id).className="small "+kind;}
-async function request(path="",opts={}){
- const headers={"Accept":"application/json","Authorization":"Bearer "+token,...(opts.headers||{})};
- if(opts.body&&!headers["Content-Type"])headers["Content-Type"]="application/json";
- const r=await fetch(API_BASE+API_PATH+path,{...opts,headers});
- const body=await r.text();let data={};try{data=body?JSON.parse(body):{}}catch{data={message:body}}
- if(!r.ok)throw new Error(data.message||data.error||`HTTP ${r.status}`);
- return data;
-}
-function payload(){
- return {name:$("name").value.trim(),type:$("type").value,startDate:$("startDate").value||null,endDate:$("endDate").value||null,resultDate:$("resultDate").value||null,status:$("status").value,published:$("status").value==="published",description:$("description").value.trim(),coverImage:$("coverImage").value.trim(),rules:$("rules").value.trim(),prizes:$("prizes").value.trim(),entryFee:Number($("entryFee").value||0),votePrice:Number($("votePrice").value||0),maxEntries:Number($("maxEntries").value||0),winnerCount:Number($("winnerCount").value||3),features:{registration:$("registrationEnabled").value==="true",photoUpload:$("photoUploadEnabled").value==="true",audioUpload:$("audioUploadEnabled").value==="true",videoUpload:$("videoUploadEnabled").value==="true",voting:$("votingEnabled").value==="true",payments:$("paymentEnabled").value==="true",publicResults:$("publicResults").value==="true"},notes:$("notes").value.trim()};
-}
-function resetForm(){ $("form").reset();$("id").value="";$("entryFee").value=0;$("votePrice").value=0;$("maxEntries").value=0;$("winnerCount").value=3;$("formTitle").textContent="Create competition";$("saveBtn").textContent="Save competition";message("saveMsg","");}
-function fillForm(p){$("id").value=p.id||p._id||"";$("name").value=p.name||p.title||"";$("type").value=p.type||"General";$("startDate").value=(p.startDate||"").slice(0,10);$("endDate").value=(p.endDate||"").slice(0,10);$("resultDate").value=(p.resultDate||"").slice(0,10);$("status").value=p.status||(p.published?"published":"draft");$("description").value=p.description||"";$("coverImage").value=p.coverImage||"";$("rules").value=p.rules||"";$("prizes").value=p.prizes||"";$("entryFee").value=p.entryFee??0;$("votePrice").value=p.votePrice??0;$("maxEntries").value=p.maxEntries??0;$("winnerCount").value=p.winnerCount??3;$("notes").value=p.notes||"";const f=p.features||{};for(const [id,key] of [["registrationEnabled","registration"],["photoUploadEnabled","photoUpload"],["audioUploadEnabled","audioUpload"],["videoUploadEnabled","videoUpload"],["votingEnabled","voting"],["paymentEnabled","payments"],["publicResults","publicResults"]])$(id).value=String(f[key]??(id==="registrationEnabled"||id==="photoUploadEnabled"||id==="publicResults"));$("formTitle").textContent="Edit competition";$("saveBtn").textContent="Update competition";window.scrollTo({top:0,behavior:"smooth"});}
-function renderItems(){
- $("items").innerHTML=records.length?records.map((p,i)=>`<div class="item"><h3>${esc(p.name||p.title||"Untitled")}</h3><div class="small">Type: ${esc(p.type||"General")} · Status: ${esc(p.status||(p.published?"published":"draft"))}</div><p>${esc(p.description||"").slice(0,170)}</p><div class="row"><button class="btn secondary" data-edit="${i}">Edit</button><button class="btn secondary" data-toggle="${i}">${(p.status==="published"||p.published)?"Unpublish":"Publish"}</button><button class="btn danger" data-delete="${i}">Delete</button></div></div>`).join(""):'<div class="notice">No competitions found. Create your first competition above.</div>';
- $("items").querySelectorAll("[data-edit]").forEach(b=>b.onclick=()=>fillForm(records[+b.dataset.edit]));
- $("items").querySelectorAll("[data-toggle]").forEach(b=>b.onclick=async()=>{const p=records[+b.dataset.toggle],id=p.id||p._id;if(!id)return message("listMsg","Backend record has no id; cannot update.","error");const pub=!(p.status==="published"||p.published);try{await request("/"+encodeURIComponent(id),{method:"PATCH",body:JSON.stringify({status:pub?"published":"draft",published:pub})});message("listMsg",pub?"Competition published.":"Competition unpublished.","success");await loadRecords()}catch(e){message("listMsg","Could not change publication status: "+e.message,"error")}});
- $("items").querySelectorAll("[data-delete]").forEach(b=>b.onclick=async()=>{const p=records[+b.dataset.delete],id=p.id||p._id;if(!id)return message("listMsg","Backend record has no id; cannot delete.","error");if(!confirm(`Delete "${p.name||p.title}"? This cannot be undone.`))return;try{await request("/"+encodeURIComponent(id),{method:"DELETE"});message("listMsg","Competition deleted.","success");await loadRecords()}catch(e){message("listMsg","Could not delete: "+e.message,"error")}});
-}
-async function loadRecords(){message("listMsg","Loading competitions…");try{const d=await request();records=Array.isArray(d)?d:(d.competitions||d.items||d.data||[]);renderItems();message("listMsg",`${records.length} competition(s) loaded from backend.`,"success")}catch(e){message("listMsg","Could not load records: "+e.message+" | Expected API: "+API_BASE+API_PATH,"error")}}
-$("loginBtn").onclick=async()=>{token=$("token").value.trim();if(!token){message("loginMsg","Enter the admin API token.","error");return}try{await request();$("login").classList.add("hidden");$("app").classList.remove("hidden");sessionStorage.setItem("kulzzy_daily_star_admin_token",token);await loadRecords()}catch(e){message("loginMsg","Backend connection failed: "+e.message+". Confirm the API route and admin token.","error")}};
-$("form").addEventListener("submit",async e=>{e.preventDefault();const data=payload(),id=$("id").value;try{message("saveMsg","Saving…");await request(id?"/"+encodeURIComponent(id):"",{method:id?"PUT":"POST",body:JSON.stringify(data)});message("saveMsg",data.status==="published"?"Competition saved and marked for publishing.":"Competition saved as "+data.status+".","success");resetForm();await loadRecords()}catch(e){message("saveMsg","Save failed: "+e.message,"error")}});
-$("newBtn").onclick=resetForm;$("resetBtn").onclick=resetForm;$("refreshBtn").onclick=loadRecords;
-const saved=sessionStorage.getItem("kulzzy_daily_star_admin_token");if(saved){$("token").value=saved;token=saved;$("loginBtn").click();}
-</script>
-</body></html>
+
+  <header class="header">
+    <h1>KULZZY RADIO</h1>
+    <p>DAILY STAR · ADMINISTRATION PANEL</p>
+  </header>
+
+  <main class="container">
+
+    <!-- LOGIN -->
+
+    <section id="loginPanel" class="panel">
+      <h2>Administrator Login</h2>
+
+      <p class="muted">
+        Sign in with your authorized Supabase administrator account.
+      </p>
+
+      <div id="loginMessage" class="message" role="alert"></div>
+
+      <form id="loginForm">
+        <div class="field">
+          <label for="loginEmail">Administrator Email</label>
+          <input
+            id="loginEmail"
+            type="email"
+            autocomplete="username"
+            required
+            placeholder="Enter your administrator email"
+          >
+        </div>
+
+        <div class="field">
+          <label for="loginPassword">Password</label>
+          <input
+            id="loginPassword"
+            type="password"
+            autocomplete="current-password"
+            required
+            placeholder="Enter your password"
+          >
+        </div>
+
+        <button id="loginButton" class="btn" type="submit">
+          SIGN IN
+        </button>
+      </form>
+    </section>
+
+    <!-- ADMIN DASHBOARD -->
+
+    <section id="dashboard" class="hidden">
+
+      <div class="panel">
+        <h2>Administrator Dashboard</h2>
+
+        <p id="accountInfo" class="account-line"></p>
+
+        <div class="buttons">
+          <button id="refreshButton" class="btn secondary" type="button">
+            REFRESH COMPETITIONS
+          </button>
+
+          <button id="logoutButton" class="btn danger" type="button">
+            SIGN OUT
+          </button>
+        </div>
+
+        <div id="dashboardMessage" class="message" role="status"></div>
+      </div>
+
+      <!-- CREATE / EDIT FORM -->
+
+      <section class="panel">
+        <h2 id="formHeading">Create Competition or Event</h2>
+
+        <p class="muted">
+          Complete the details below. Choose Published when the event is
+          ready to appear on the public Daily Star page.
+        </p>
+
+        <form id="competitionForm">
+
+          <input type="hidden" id="recordId">
+
+          <div class="grid">
+
+            <div class="field">
+              <label for="name">Competition / Event Name *</label>
+              <input
+                id="name"
+                type="text"
+                maxlength="250"
+                required
+                placeholder="Enter event name"
+              >
+            </div>
+
+            <div class="field">
+              <label for="type">Competition Type *</label>
+              <input
+                id="type"
+                type="text"
+                maxlength="100"
+                required
+                value="General"
+                placeholder="e.g. Music Award"
+              >
+            </div>
+
+            <div class="field">
+              <label for="startDate">Start Date</label>
+              <input id="startDate" type="date">
+            </div>
+
+            <div class="field">
+              <label for="endDate">End Date</label>
+              <input id="endDate" type="date">
+            </div>
+
+            <div class="field">
+              <label for="resultDate">Results Announcement Date</label>
+              <input id="resultDate" type="date">
+            </div>
+
+            <div class="field">
+              <label for="status">Publication Status *</label>
+              <select id="status" required>
+                <option value="draft">Draft — Not Public</option>
+                <option value="published">Published — Public</option>
+                <option value="closed">Closed — Not Public</option>
+                <option value="cancelled">Cancelled — Not Public</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="entryFee">Entry Fee (₦)</label>
+              <input
+                id="entryFee"
+                type="number"
+                min="0"
+                step="0.01"
+                value="0"
+              >
+            </div>
+
+            <div class="field">
+              <label for="votePrice">Price Per Vote (₦)</label>
+              <input
+                id="votePrice"
+                type="number"
+                min="0"
+                step="0.01"
+                value="0"
+              >
+            </div>
+
+            <div class="field">
+              <label for="maxEntries">Maximum Entries (0 = Unlimited)</label>
+              <input
+                id="maxEntries"
+                type="number"
+                min="0"
+                step="1"
+                value="0"
+              >
+            </div>
+
+            <div class="field">
+              <label for="winnerCount">Number of Winners</label>
+              <input
+                id="winnerCount"
+                type="number"
+                min="1"
+                step="1"
+                value="3"
+              >
+            </div>
+
+          </div>
+
+          <div class="field">
+            <label for="description">Event Description</label>
+            <textarea
+              id="description"
+              placeholder="Explain what the competition or event is about"
+            ></textarea>
+          </div>
+
+          <div class="field">
+            <label for="coverImage">Cover Image URL</label>
+            <input
+              id="coverImage"
+              type="url"
+              placeholder="https://example.com/cover.jpg"
+            >
+            <p class="muted">
+              Enter a publicly accessible image URL. Image uploading is not
+              included in this form.
+            </p>
+          </div>
+
+          <div class="field">
+            <label for="prizes">Prizes</label>
+            <textarea
+              id="prizes"
+              placeholder="Describe the prizes and rewards"
+            ></textarea>
+          </div>
+
+          <div class="field">
+            <label for="rules">Rules & Requirements</label>
+            <textarea
+              id="rules"
+              placeholder="Enter the competition rules"
+            ></textarea>
+          </div>
+
+          <div class="field">
+            <label>Event Features</label>
+
+            <div class="checkbox-grid">
+
+              <div class="check-item">
+                <input id="featureRegistration" type="checkbox">
+                <label for="featureRegistration">Registration</label>
+              </div>
+
+              <div class="check-item">
+                <input id="featurePhoto" type="checkbox">
+                <label for="featurePhoto">Photo Upload</label>
+              </div>
+
+              <div class="check-item">
+                <input id="featureAudio" type="checkbox">
+                <label for="featureAudio">Audio Upload</label>
+              </div>
+
+              <div class="check-item">
+                <input id="featureVideo" type="checkbox">
+                <label for="featureVideo">Video Upload</label>
+              </div>
+
+              <div class="check-item">
+                <input id="featureVoting" type="checkbox">
+                <label for="featureVoting">Voting</label>
+              </div>
+
+              <div class="check-item">
+                <input id="featurePayments" type="checkbox">
+                <label for="featurePayments">Payments</label>
+              </div>
+
+              <div class="check-item">
+                <input id="featurePublicResults" type="checkbox">
+                <label for="featurePublicResults">Public Results</label>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="notes">Private Administrator Notes</label>
+            <textarea
+              id="notes"
+              placeholder="Notes for the administration team"
+            ></textarea>
+          </div>
+
+          <div id="formMessage" class="message" role="alert"></div>
+
+          <div class="buttons">
+            <button id="saveButton" class="btn" type="submit">
+              SAVE COMPETITION
+            </button>
+
+            <button id="clearButton" class="btn secondary" type="button">
+              CLEAR FORM
+            </button>
+          </div>
+
+        </form>
+      </section>
+
+      <!-- EXISTING RECORDS -->
+
+      <section class="panel">
+        <h2>Manage Competitions & Events</h2>
+
+        <p class="muted">
+          Select Edit to change a record. Delete permanently removes it
+          from the competitions table.
+        </p>
+
+        <div id="recordsMessage" class="message" role="status"></div>
+
+        <div id="recordsList">
+          <p class="muted">Your records will appear here.</p>
+        </div>
+      </section>
+
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    STAY TUNED IN
+  </footer>
+
+  <script src="./config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+    "use strict";
+
+    (function () {
+
+      const ADMIN_UID = "5d724606-736a-4d69-9ea9-7a64f5addf88";
+
+      const $ = function (id) {
+        return document.getElementById(id);
+      };
+
+      const loginPanel = $("loginPanel");
+      const dashboard = $("dashboard");
+      const loginForm = $("loginForm");
+      const competitionForm = $("competitionForm");
+
+      let sb = null;
+      let currentUser = null;
+      let records = [];
+      let authCheckRunning = false;
+
+      function showMessage(id, message, type) {
+        const element = $(id);
+
+        element.textContent = message;
+        element.className = "message " + (type || "error");
+        element.style.display = "block";
+      }
+
+      function clearMessage(id) {
+        const element = $(id);
+
+        element.textContent = "";
+        element.className = "message";
+        element.style.display = "none";
+      }
+
+      function setButtonLoading(button, loading, loadingText, normalText) {
+        button.disabled = loading;
+        button.textContent = loading ? loadingText : normalText;
+      }
+
+      function escapeHTML(value) {
+        return String(value == null ? "" : value)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#039;");
+      }
+
+      function getClient() {
+        if (sb) return sb;
+
+        if (!window.KULZZY_CONFIG) {
+          throw new Error(
+            "config.js is missing or did not load."
+          );
+        }
+
+        const url = window.KULZZY_CONFIG.SUPABASE_URL;
+        const key = window.KULZZY_CONFIG.SUPABASE_PUBLISHABLE_KEY;
+
+        if (!url || !key) {
+          throw new Error(
+            "Supabase URL or publishable key is missing in config.js."
+          );
+        }
+
+        if (!window.supabase || !window.supabase.createClient) {
+          throw new Error(
+            "The Supabase library could not load. Check your internet connection."
+          );
+        }
+
+        sb = window.supabase.createClient(url, key, {
+          auth: {
+            persistSession: true,
+            autoRefreshToken: true,
+            detectSessionInUrl: true
+          }
+        });
+
+        return sb;
+      }
+
+      function showLoggedOut() {
+        currentUser = null;
+        dashboard.classList.add("hidden");
+        loginPanel.classList.remove("hidden");
+      }
+
+      function showLoggedIn(user) {
+        currentUser = user;
+
+        loginPanel.classList.add("hidden");
+        dashboard.classList.remove("hidden");
+
+        $("accountInfo").textContent =
+          "Signed in as: " + (user.email || "Authorized administrator");
+
+        loadRecords();
+      }
+
+      function isAuthorized(user) {
+        return !!user && user.id === ADMIN_UID;
+      }
+
+      async function verifySession() {
+        if (authCheckRunning) return;
+        authCheckRunning = true;
+
+        try {
+          const client = getClient();
+          const result = await client.auth.getSession();
+
+          if (result.error) throw result.error;
+
+          const user = result.data.session
+            ? result.data.session.user
+            : null;
+
+          if (!user) {
+            showLoggedOut();
+            return;
+          }
+
+          if (!isAuthorized(user)) {
+            await client.auth.signOut();
+            showLoggedOut();
+
+            showMessage(
+              "loginMessage",
+              "Access denied. This account is not authorized to administer Kulzzy Radio Daily Star.",
+              "error"
+            );
+
+            return;
+          }
+
+          showLoggedIn(user);
+
+        } catch (error) {
+          console.error("Session check failed:", error);
+
+          showLoggedOut();
+
+          showMessage(
+            "loginMessage",
+            "Could not check your login. " +
+            (error.message || "Please refresh the page."),
+            "error"
+          );
+
+        } finally {
+          authCheckRunning = false;
+        }
+      }
+
+      loginForm.addEventListener("submit", async function (event) {
+        event.preventDefault();
+        clearMessage("loginMessage");
+
+        const email = $("loginEmail").value.trim();
+        const password = $("loginPassword").value;
+        const button = $("loginButton");
+
+        setButtonLoading(button, true, "SIGNING IN...", "SIGN IN");
+
+        try {
+          const client = getClient();
+
+          const result = await client.auth.signInWithPassword({
+            email: email,
+            password: password
+          });
+
+          if (result.error) throw result.error;
+
+          const user = result.data.user;
+
+          if (!isAuthorized(user)) {
+            await client.auth.signOut();
+
+            throw new Error(
+              "This account is not the authorized Daily Star administrator. Sign in using the administrator account you created in Supabase."
+            );
+          }
+
+          $("loginPassword").value = "";
+
+          showMessage(
+            "dashboardMessage",
+            "Administrator login successful.",
+            "success"
+          );
+
+          showLoggedIn(user);
+
+        } catch (error) {
+          console.error("Login failed:", error);
+
+          showMessage(
+            "loginMessage",
+            error.message || "Login failed. Check your email and password.",
+            "error"
+          );
+
+        } finally {
+          setButtonLoading(button, false, "SIGNING IN...", "SIGN IN");
+        }
+      });
+
+      $("logoutButton").addEventListener("click", async function () {
+        if (!confirm("Are you sure you want to sign out?")) return;
+
+        try {
+          const client = getClient();
+          const result = await client.auth.signOut();
+
+          if (result.error) throw result.error;
+
+          showLoggedOut();
+          showMessage("loginMessage", "You have signed out.", "success");
+
+        } catch (error) {
+          showMessage(
+            "dashboardMessage",
+            "Could not sign out: " + error.message,
+            "error"
+          );
+        }
+      });
+
+      function formatDate(value) {
+        if (!value) return "Not specified";
+
+        const date = new Date(
+          /^\d{4}-\d{2}-\d{2}$/.test(String(value))
+            ? value + "T00:00:00"
+            : value
+        );
+
+        if (Number.isNaN(date.getTime())) return String(value);
+
+        return date.toLocaleDateString("en-NG", {
+          day: "numeric",
+          month: "short",
+          year: "numeric"
+        });
+      }
+
+      async function loadRecords() {
+        clearMessage("recordsMessage");
+
+        $("recordsList").innerHTML =
+          '<p class="muted">Loading records...</p>';
+
+        try {
+          if (!currentUser || !isAuthorized(currentUser)) {
+            throw new Error("Administrator authorization is required.");
+          }
+
+          const result = await getClient()
+            .from("competitions")
+            .select("*")
+            .order("created_at", { ascending: false });
+
+          if (result.error) throw result.error;
+
+          records = result.data || [];
+          renderRecords();
+
+        } catch (error) {
+          console.error("Loading records failed:", error);
+
+          $("recordsList").innerHTML = "";
+
+          showMessage(
+            "recordsMessage",
+            "Could not load competitions: " +
+            (error.message || "Unknown error"),
+            "error"
+          );
+        }
+      }
+
+      function renderRecords() {
+        const list = $("recordsList");
+
+        if (!records.length) {
+          list.innerHTML =
+            '<div class="competition"><h3>No records yet</h3>' +
+            '<p>Create your first competition using the form above.</p></div>';
+          return;
+        }
+
+        list.innerHTML = records.map(function (record) {
+          const published =
+            record.published === true &&
+            record.status === "published";
+
+          const state = published
+            ? "Published"
+            : (record.status || "draft");
+
+          return `
+            <article class="competition">
+              <span class="badge">${escapeHTML(state)}</span>
+
+              <h3>${escapeHTML(record.name)}</h3>
+
+              <p><strong>Type:</strong> ${escapeHTML(record.type || "General")}</p>
+
+              <p><strong>Start:</strong> ${escapeHTML(formatDate(record.start_date))}</p>
+
+              <p><strong>End:</strong> ${escapeHTML(formatDate(record.end_date))}</p>
+
+              <p><strong>Entry Fee:</strong> ₦${escapeHTML(record.entry_fee ?? 0)}</p>
+
+              <p><strong>Price Per Vote:</strong> ₦${escapeHTML(record.vote_price ?? 0)}</p>
+
+              <div class="buttons">
+                <button class="btn edit-button"
+                        type="button"
+                        data-id="${escapeHTML(record.id)}">
+                  EDIT
+                </button>
+
+                <button class="btn danger delete-button"
+                        type="button"
+                        data-id="${escapeHTML(record.id)}">
+                  DELETE
+                </button>
+              </div>
+            </article>
+          `;
+        }).join("");
+
+        list.querySelectorAll(".edit-button").forEach(function (button) {
+          button.addEventListener("click", function () {
+            editRecord(button.dataset.id);
+          });
+        });
+
+        list.querySelectorAll(".delete-button").forEach(function (button) {
+          button.addEventListener("click", function () {
+            deleteRecord(button.dataset.id);
+          });
+        });
+      }
+
+      function setChecked(id, value) {
+        $(id).checked = value === true;
+      }
+
+      function editRecord(id) {
+        const record = records.find(function (item) {
+          return item.id === id;
+        });
+
+        if (!record) {
+          showMessage("recordsMessage", "Record not found.", "error");
+          return;
+        }
+
+        const features = record.features || {};
+
+        $("recordId").value = record.id || "";
+        $("name").value = record.name || "";
+        $("type").value = record.type || "General";
+        $("startDate").value = record.start_date || "";
+        $("endDate").value = record.end_date || "";
+        $("resultDate").value = record.result_date || "";
+        $("status").value = record.status || "draft";
+        $("description").value = record.description || "";
+        $("coverImage").value = record.cover_image || "";
+        $("prizes").value = record.prizes || "";
+        $("rules").value = record.rules || "";
+        $("entryFee").value = record.entry_fee ?? 0;
+        $("votePrice").value = record.vote_price ?? 0;
+        $("maxEntries").value = record.max_entries ?? 0;
+        $("winnerCount").value = record.winner_count ?? 3;
+        $("notes").value = record.notes || "";
+
+        setChecked("featureRegistration", features.registration);
+        setChecked("featurePhoto", features.photoUpload);
+        setChecked("featureAudio", features.audioUpload);
+        setChecked("featureVideo", features.videoUpload);
+        setChecked("featureVoting", features.voting);
+        setChecked("featurePayments", features.payments);
+        setChecked("featurePublicResults", features.publicResults);
+
+        $("formHeading").textContent = "Edit Competition or Event";
+        $("saveButton").textContent = "UPDATE COMPETITION";
+
+        clearMessage("formMessage");
+
+        window.scrollTo({
+          top: competitionForm.getBoundingClientRect().top +
+               window.scrollY - 10,
+          behavior: "smooth"
+        });
+      }
+
+      function readNumber(id, label, allowDecimal) {
+        const input = $(id);
+        const value = input.value.trim();
+
+        if (value === "") return 0;
+
+        const number = Number(value);
+
+        if (!Number.isFinite(number) || number < 0) {
+          throw new Error(label + " must be zero or a positive number.");
+        }
+
+        if (!allowDecimal && !Number.isInteger(number)) {
+          throw new Error(label + " must be a whole number.");
+        }
+
+        return number;
+      }
+
+      function collectFormData() {
+        const name = $("name").value.trim();
+        const type = $("type").value.trim();
+        const status = $("status").value;
+
+        if (!name) throw new Error("Enter the competition name.");
+        if (!type) throw new Error("Enter the competition type.");
+
+        const startDate = $("startDate").value || null;
+        const endDate = $("endDate").value || null;
+        const resultDate = $("resultDate").value || null;
+
+        if (startDate && endDate && endDate < startDate) {
+          throw new Error("The end date cannot be earlier than the start date.");
+        }
+
+        const features = {
+          registration: $("featureRegistration").checked,
+          photoUpload: $("featurePhoto").checked,
+          audioUpload: $("featureAudio").checked,
+          videoUpload: $("featureVideo").checked,
+          voting: $("featureVoting").checked,
+          payments: $("featurePayments").checked,
+          publicResults: $("featurePublicResults").checked
+        };
+
+        return {
+          name: name,
+          type: type,
+          description: $("description").value.trim(),
+          rules: $("rules").value.trim(),
+          prizes: $("prizes").value.trim(),
+          cover_image: $("coverImage").value.trim(),
+          start_date: startDate,
+          end_date: endDate,
+          result_date: resultDate,
+          status: status,
+          published: status === "published",
+          entry_fee: readNumber("entryFee", "Entry fee", true),
+          vote_price: readNumber("votePrice", "Price per vote", true),
+          max_entries: readNumber("maxEntries", "Maximum entries", false),
+          winner_count: readNumber("winnerCount", "Winner count", false),
+          features: features,
+          notes: $("notes").value.trim(),
+          updated_at: new Date().toISOString()
+        };
+      }
+
+      competitionForm.addEventListener("submit", async function (event) {
+        event.preventDefault();
+        clearMessage("formMessage");
+
+        if (!currentUser || !isAuthorized(currentUser)) {
+          showMessage(
+            "formMessage",
+            "Your administrator session is not valid. Please sign in again.",
+            "error"
+          );
+          return;
+        }
+
+        const button = $("saveButton");
+        setButtonLoading(button, true, "SAVING...", "SAVE COMPETITION");
+
+        try {
+          const data = collectFormData();
+          const id = $("recordId").value.trim();
+          const client = getClient();
+
+          let result;
+
+          if (id) {
+            result = await client
+              .from("competitions")
+              .update(data)
+              .eq("id", id)
+              .select()
+              .single();
+          } else {
+            result = await client
+              .from("competitions")
+              .insert(data)
+              .select()
+              .single();
+          }
+
+          if (result.error) throw result.error;
+
+          showMessage(
+            "formMessage",
+            id
+              ? "Competition updated successfully."
+              : "Competition created successfully.",
+            "success"
+          );
+
+          clearForm(false);
+          await loadRecords();
+
+        } catch (error) {
+          console.error("Saving competition failed:", error);
+
+          showMessage(
+            "formMessage",
+            "Could not save the competition: " +
+            (error.message || "Unknown error"),
+            "error"
+          );
+
+        } finally {
+          setButtonLoading(
+            button,
+            false,
+            "SAVING...",
+            $("recordId").value ? "UPDATE COMPETITION" : "SAVE COMPETITION"
+          );
+        }
+      });
+
+      function clearForm(clearMessages) {
+        competitionForm.reset();
+
+        $("recordId").value = "";
+        $("type").value = "General";
+        $("status").value = "draft";
+        $("entryFee").value = "0";
+        $("votePrice").value = "0";
+        $("maxEntries").value = "0";
+        $("winnerCount").value = "3";
+
+        $("formHeading").textContent = "Create Competition or Event";
+        $("saveButton").textContent = "SAVE COMPETITION";
+
+        if (clearMessages !== false) {
+          clearMessage("formMessage");
+        }
+      }
+
+      $("clearButton").addEventListener("click", function () {
+        clearForm(true);
+      });
+
+      async function deleteRecord(id) {
+        const record = records.find(function (item) {
+          return item.id === id;
+        });
+
+        if (!record) return;
+
+        const confirmed = confirm(
+          'Permanently delete "' + record.name + '"?\n\n' +
+          "This action cannot be undone."
+        );
+
+        if (!confirmed) return;
+
+        try {
+          const result = await getClient()
+            .from("competitions")
+            .delete()
+            .eq("id", id)
+            .select("id");
+
+          if (result.error) throw result.error;
+
+          if (!result.data || result.data.length === 0) {
+            throw new Error(
+              "No record was deleted. Check your administrator permissions."
+            );
+          }
+
+          if ($("recordId").value === id) {
+            clearForm(true);
+          }
+
+          showMessage(
+            "recordsMessage",
+            "Competition deleted successfully.",
+            "success"
+          );
+
+          await loadRecords();
+
+        } catch (error) {
+          console.error("Deleting competition failed:", error);
+
+          showMessage(
+            "recordsMessage",
+            "Could not delete the competition: " +
+            (error.message || "Unknown error"),
+            "error"
+          );
+        }
+      }
+
+      $("refreshButton").addEventListener("click", loadRecords);
+
+      /*
+       * Start by checking the saved Supabase login.
+       * The database policies remain responsible for protecting records.
+       */
+      verifySession();
+
+    })();
+  </script>
+
+</body>
+</html>
