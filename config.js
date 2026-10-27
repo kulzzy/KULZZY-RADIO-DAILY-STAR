@@ -1,9 +1,9 @@
-/*
- * KULZZY RADIO DAILY STAR — API CONFIGURATION
- * Change these values only if the backend API uses a different route.
- * The API route is a contract/assumption and must exist in Backend Core.
- */
+/* KULZZY RADIO DAILY STAR
+   Supabase Configuration
+*/
 window.KULZZY_CONFIG = {
-  API_BASE: "https://kulzzy-backend-core-rywavs.v2.appdeploy.ai",
-  COMPETITIONS_PATH: "/api/competitions"
+  SUPABASE_URL: "https://dzbceefbfousvcejoqog.supabase.co",
+
+  SUPABASE_PUBLISHABLE_KEY:
+    "sb_publishable_alTxMwdBXOXVDuBg55kUBQ_-GPIohTF"
 };
