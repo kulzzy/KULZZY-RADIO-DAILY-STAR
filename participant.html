@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#06122a">
+<title>Daily Star Participant | Kulzzy Radio</title>
+
+<style>
+:root{
+  --navy:#06122a;
+  --panel:#0b1935;
+  --gold:#ffd700;
+  --white:#fff;
+  --muted:#c0cbe0;
+  --border:rgba(255,215,0,.3)
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--navy);color:var(--white);
+  font-family:Arial,Helvetica,sans-serif;line-height:1.6
+}
+header{
+  text-align:center;padding:23px 12px;background:#030b1b;
+  border-bottom:2px solid var(--gold)
+}
+header h1{margin:0;color:var(--gold);font-size:clamp(24px,5vw,34px)}
+header p{margin:5px 0;color:var(--muted);font-size:13px}
+main{max-width:780px;margin:auto;padding:20px 12px 40px}
+.card{
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:13px;padding:20px;margin-bottom:18px
+}
+h2,h3{color:var(--gold);overflow-wrap:anywhere}
+h2{margin:0 0 12px;font-size:27px}
+h3{margin-bottom:8px}
+#photo{
+  display:block;width:100%;max-height:520px;object-fit:contain;
+  background:#030b1b;border-radius:10px;margin:15px auto
+}
+audio,video{display:block;width:100%;margin:12px 0}
+video{max-height:480px;background:#000;border-radius:9px}
+.media-title{color:var(--gold);font-weight:bold;margin-top:18px}
+.muted{color:var(--muted)}
+button,.button{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-height:44px;padding:10px 15px;border:1px solid var(--gold);
+  border-radius:7px;background:var(--gold);color:#06122a;
+  font-weight:bold;text-decoration:none;cursor:pointer
+}
+.secondary{background:transparent;color:var(--gold)}
+.buttons{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+#status{overflow-wrap:anywhere}
+footer{
+  padding:22px;text-align:center;color:var(--gold);
+  border-top:1px solid var(--border);letter-spacing:2px;font-weight:bold
+}
+</style>
+</head>
+
+<body>
+<header>
+  <h1>KULZZY RADIO</h1>
+  <p>DAILY STAR — CELEBRATING TALENT</p>
+</header>
+
+<main>
+  <section class="card">
+    <p class="muted">KULZZY RADIO DAILY STAR PARTICIPANT PROFILE</p>
+    <div id="status">Loading participant profile...</div>
+
+    <div id="profile" hidden>
+      <img id="photo" alt="Participant picture" hidden>
+      <h2 id="stageName"></h2>
+      <p id="fullName" class="muted"></p>
+      <p id="bio"></p>
+
+      <div id="audioSection" hidden>
+        <h3 class="media-title">Listen to the Participant</h3>
+        <audio id="audio" controls preload="metadata"></audio>
+      </div>
+
+      <div id="videoSection" hidden>
+        <h3 class="media-title">Watch the Participant</h3>
+        <video id="video" controls playsinline preload="metadata"></video>
+      </div>
+
+      <div class="buttons">
+        <button id="shareButton" type="button">SHARE PROFILE</button>
+        <button id="copyButton" type="button" class="secondary">COPY PROFILE LINK</button>
+        <a href="./" class="button secondary">VISIT DAILY STAR</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>STAY TUNED IN</footer>
+
+<script src="./config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+"use strict";
+
+(async function(){
+  const $ = id => document.getElementById(id);
+
+  function escapeText(value){
+    return String(value ?? "");
+  }
+
+  function showError(text){
+    $("status").textContent = text;
+    $("status").className = "muted";
+  }
+
+  try{
+    if(!window.KULZZY_CONFIG){
+      throw new Error("The Supabase configuration could not load.");
+    }
+
+    if(!window.supabase){
+      throw new Error("The profile service could not load. Check your internet connection.");
+    }
+
+    const id = new URLSearchParams(window.location.search).get("id");
+
+    if(!id){
+      throw new Error("No participant was specified in this profile link.");
+    }
+
+    const supabase = window.supabase.createClient(
+      window.KULZZY_CONFIG.SUPABASE_URL,
+      window.KULZZY_CONFIG.SUPABASE_PUBLISHABLE_KEY
+    );
+
+    const {data,error} = await supabase
+      .from("participants")
+      .select("id,full_name,stage_name,bio,photo_url,audio_url,video_url,published,competition_id")
+      .eq("id",id)
+      .eq("published",true)
+      .maybeSingle();
+
+    if(error) throw error;
+
+    if(!data){
+      throw new Error("This participant profile is unavailable or has not been published.");
+    }
+
+    $("status").hidden = true;
+    $("profile").hidden = false;
+
+    $("stageName").textContent = data.stage_name || data.full_name || "Daily Star Participant";
+    $("fullName").textContent = data.stage_name && data.full_name
+      ? "Participant: " + data.full_name
+      : "";
+    $("bio").textContent = data.bio || "Welcome to this Kulzzy Radio Daily Star participant profile.";
+
+    if(data.photo_url){
+      $("photo").src = data.photo_url;
+      $("photo").hidden = false;
+      $("photo").onerror = () => {
+        $("photo").hidden = true;
+      };
+    }
+
+    if(data.audio_url){
+      $("audio").src = data.audio_url;
+      $("audioSection").hidden = false;
+    }
+
+    if(data.video_url){
+      $("video").src = data.video_url;
+      $("videoSection").hidden = false;
+    }
+
+    const shareData = {
+      title: "Kulzzy Radio Daily Star — " + (data.stage_name || data.full_name),
+      text: "View this participant's profile on Kulzzy Radio Daily Star.",
+      url: window.location.href
+    };
+
+    $("shareButton").addEventListener("click",async()=>{
+      try{
+        if(navigator.share){
+          await navigator.share(shareData);
+        }else{
+          await navigator.clipboard.writeText(window.location.href);
+          alert("Profile link copied. You can now share it.");
+        }
+      }catch(error){
+        if(error.name !== "AbortError"){
+          window.prompt("Copy this participant profile link:",window.location.href);
+        }
+      }
+    });
+
+    $("copyButton").addEventListener("click",async()=>{
+      try{
+        await navigator.clipboard.writeText(window.location.href);
+        alert("Profile link copied successfully.");
+      }catch(error){
+        window.prompt("Copy this participant profile link:",window.location.href);
+      }
+    });
+
+    document.title = (data.stage_name || data.full_name) + " | Kulzzy Radio Daily Star";
+
+  }catch(error){
+    console.error("Participant profile error:",error);
+    showError(error.message || "Could not load this participant profile.");
+  }
+})();
+</script>
+</body>
+</html>
