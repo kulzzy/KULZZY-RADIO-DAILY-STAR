@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#06122a">
+<title>Participant Manager | Kulzzy Radio Daily Star</title>
+
+<style>
+:root {
+  --navy:#06122a;
+  --panel:#0b1935;
+  --gold:#ffd700;
+  --white:#fff;
+  --muted:#b9c4d9;
+  --border:rgba(255,215,0,.28);
+  --red:#ff6464;
+  --green:#29c77a;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--navy);color:var(--white);
+  font-family:Arial,Helvetica,sans-serif;line-height:1.5
+}
+header{
+  text-align:center;background:#030b1b;
+  padding:22px 12px;border-bottom:2px solid var(--gold)
+}
+header h1{margin:0;color:var(--gold);font-size:clamp(23px,5vw,32px)}
+header p{margin:5px 0;color:var(--muted);font-size:13px}
+main{max-width:1000px;margin:auto;padding:16px 12px 40px}
+.panel{
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:12px;padding:17px;margin-bottom:18px
+}
+h2{color:var(--gold);font-size:22px;margin:0 0 12px}
+h3{color:var(--gold);overflow-wrap:anywhere}
+label{display:block;font-weight:bold;margin:12px 0 6px;font-size:14px}
+input,textarea,select{
+  width:100%;padding:12px;border-radius:7px;
+  border:1px solid #344667;background:#06122a;
+  color:white;font:inherit;min-height:44px
+}
+textarea{min-height:100px;resize:vertical}
+input[type=file]{padding:9px}
+button,.button{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-height:43px;padding:10px 14px;border:1px solid var(--gold);
+  border-radius:7px;background:var(--gold);color:#06122a;
+  font-weight:bold;font-size:14px;cursor:pointer;text-decoration:none
+}
+button:disabled{opacity:.55;cursor:wait}
+.secondary{background:transparent;color:var(--gold)}
+.danger{background:var(--red);border-color:var(--red);color:#190000}
+.buttons{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}
+.buttons button{flex:1 1 auto}
+.muted{color:var(--muted);font-size:13px}
+.message{
+  display:none;padding:12px;margin:12px 0;border:1px solid var(--border);
+  border-radius:7px;overflow-wrap:anywhere
+}
+.message.success{display:block;border-color:var(--green);color:#baffd8}
+.message.error{display:block;border-color:var(--red);color:#ffd0d0}
+.hidden{display:none!important}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}
+.card{
+  border:1px solid var(--border);border-radius:10px;
+  padding:14px;margin-top:12px;background:#06122a;overflow-wrap:anywhere
+}
+.card img{
+  width:85px;height:85px;object-fit:cover;border-radius:9px;
+  float:right;margin:0 0 10px 12px
+}
+.badge{
+  display:inline-block;padding:3px 9px;border-radius:20px;
+  background:#182e50;color:var(--gold);font-size:11px
+}
+.profilelink{word-break:break-all;font-size:12px;color:var(--muted)}
+footer{
+  text-align:center;padding:22px 10px;color:var(--gold);
+  border-top:1px solid var(--border);letter-spacing:2px;font-weight:bold
+}
+@media(max-width:600px){
+  .grid{grid-template-columns:1fr}
+  .panel{padding:13px}
+}
+</style>
+</head>
+
+<body>
+<header>
+  <h1>KULZZY RADIO</h1>
+  <p>DAILY STAR — PARTICIPANT MANAGEMENT</p>
+</header>
+
+<main>
+
+<section id="loginPanel" class="panel">
+  <h2>Administrator Login</h2>
+  <p class="muted">Sign in using your authorized Daily Star administrator account.</p>
+  <div id="loginMessage" class="message" role="status"></div>
+
+  <form id="loginForm">
+    <label for="email">Administrator Email</label>
+    <input id="email" type="email" autocomplete="username" required>
+
+    <label for="password">Password</label>
+    <input id="password" type="password" autocomplete="current-password" required>
+
+    <div class="buttons">
+      <button id="loginButton" type="submit">SIGN IN</button>
+    </div>
+  </form>
+</section>
+
+<section id="dashboard" class="hidden">
+
+  <div class="panel">
+    <h2>Participant Dashboard</h2>
+    <p id="accountInfo" class="muted"></p>
+    <div class="buttons">
+      <button type="button" id="refreshButton" class="secondary">REFRESH PARTICIPANTS</button>
+      <button type="button" id="logoutButton" class="danger">SIGN OUT</button>
+    </div>
+    <div id="dashboardMessage" class="message" role="status"></div>
+  </div>
+
+  <section class="panel">
+    <h2 id="formTitle">Add Participant</h2>
+    <p class="muted">
+      Add a participant's details and upload their media.
+      Select Published to make the profile publicly accessible.
+    </p>
+
+    <div id="formMessage" class="message" role="status"></div>
+
+    <form id="participantForm">
+      <input id="participantId" type="hidden">
+
+      <label for="competition">Competition / Event</label>
+      <select id="competition">
+        <option value="">No competition selected</option>
+      </select>
+
+      <div class="grid">
+        <div>
+          <label for="fullName">Participant Full Name *</label>
+          <input id="fullName" maxlength="200" required placeholder="Full name">
+        </div>
+
+        <div>
+          <label for="stageName">Stage Name</label>
+          <input id="stageName" maxlength="200" placeholder="Stage name">
+        </div>
+      </div>
+
+      <label for="bio">Biography</label>
+      <textarea id="bio" placeholder="Write about this participant"></textarea>
+
+      <label for="photo">Participant Picture</label>
+      <input id="photo" type="file" accept="image/jpeg,image/png,image/webp,image/gif">
+      <p class="muted">Accepted: JPG, PNG, WEBP or GIF. Maximum 50 MB.</p>
+
+      <label for="audio">Participant Audio</label>
+      <input id="audio" type="file"
+        accept="audio/mpeg,audio/mp3,audio/mp4,audio/aac,audio/ogg,audio/wav,audio/webm">
+      <p class="muted">Accepted audio formats shown above. Maximum 50 MB.</p>
+
+      <label for="video">Participant Video</label>
+      <input id="video" type="file" accept="video/mp4,video/webm,video/quicktime">
+      <p class="muted">Accepted: MP4, WEBM or MOV. Maximum 50 MB.</p>
+
+      <label for="published">Profile Visibility</label>
+      <select id="published">
+        <option value="false">Draft — Private</option>
+        <option value="true">Published — Public</option>
+      </select>
+
+      <div class="buttons">
+        <button id="saveButton" type="submit">SAVE PARTICIPANT</button>
+        <button id="clearButton" type="button" class="secondary">CLEAR FORM</button>
+      </div>
+    </form>
+  </section>
+
+  <section class="panel">
+    <h2>Saved Participants</h2>
+    <div id="participantList"><p class="muted">Loading participants...</p></div>
+  </section>
+
+</section>
+</main>
+
+<footer>STAY TUNED IN</footer>
+
+<script src="./config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+"use strict";
+
+(() => {
+  const ADMIN_UID = "5d724606-736a-4d69-9ea9-7a64f5addf88";
+  const BUCKET = "participant-media";
+  const MAX_BYTES = 50 * 1024 * 1024;
+
+  const $ = id => document.getElementById(id);
+
+  let sb;
+  let user = null;
+  let participants = [];
+
+  function client() {
+    if (sb) return sb;
+
+    if (!window.KULZZY_CONFIG) {
+      throw new Error("config.js did not load.");
+    }
+
+    if (!window.supabase) {
+      throw new Error("Supabase library did not load. Check your internet connection.");
+    }
+
+    sb = window.supabase.createClient(
+      window.KULZZY_CONFIG.SUPABASE_URL,
+      window.KULZZY_CONFIG.SUPABASE_PUBLISHABLE_KEY,
+      {
+        auth: {
+          persistSession: true,
+          autoRefreshToken: true,
+          detectSessionInUrl: true
+        }
+      }
+    );
+
+    return sb;
+  }
+
+  function escapeHTML(value) {
+    return String(value ?? "").replace(/[&<>"']/g, char => ({
+      "&":"&amp;",
+      "<":"&lt;",
+      ">":"&gt;",
+      '"':"&quot;",
+      "'":"&#039;"
+    })[char]);
+  }
+
+  function message(id, text, type="error") {
+    $(id).textContent = text;
+    $(id).className = "message " + type;
+    $(id).style.display = "block";
+  }
+
+  function clearMessage(id) {
+    $(id).textContent = "";
+    $(id).className = "message";
+    $(id).style.display = "none";
+  }
+
+  function authorized(account) {
+    return !!account && account.id === ADMIN_UID;
+  }
+
+  function showLogin() {
+    user = null;
+    $("loginPanel").classList.remove("hidden");
+    $("dashboard").classList.add("hidden");
+  }
+
+  async function showDashboard(account) {
+    user = account;
+    $("loginPanel").classList.add("hidden");
+    $("dashboard").classList.remove("hidden");
+    $("accountInfo").textContent = "Signed in as: " + (account.email || "Administrator");
+
+    await loadCompetitions();
+    await loadParticipants();
+  }
+
+  $("loginForm").addEventListener("submit", async event => {
+    event.preventDefault();
+    clearMessage("loginMessage");
+
+    const button = $("loginButton");
+    button.disabled = true;
+    button.textContent = "SIGNING IN...";
+
+    try {
+      const { data, error } = await client().auth.signInWithPassword({
+        email: $("email").value.trim(),
+        password: $("password").value
+      });
+
+      if (error) throw error;
+
+      if (!authorized(data.user)) {
+        await client().auth.signOut();
+        throw new Error("This account is not authorized to manage Daily Star participants.");
+      }
+
+      $("password").value = "";
+      await showDashboard(data.user);
+      message("dashboardMessage", "Administrator login successful.", "success");
+
+    } catch (error) {
+      message("loginMessage", error.message || "Login failed.");
+    } finally {
+      button.disabled = false;
+      button.textContent = "SIGN IN";
+    }
+  });
+
+  async function checkSession() {
+    try {
+      const { data, error } = await client().auth.getSession();
+      if (error) throw error;
+
+      const account = data.session?.user;
+
+      if (!account) {
+        showLogin();
+        return;
+      }
+
+      if (!authorized(account)) {
+        await client().auth.signOut();
+        showLogin();
+        message("loginMessage", "This account is not authorized.");
+        return;
+      }
+
+      await showDashboard(account);
+    } catch (error) {
+      showLogin();
+      message("loginMessage", error.message || "Could not check your session.");
+    }
+  }
+
+  $("logoutButton").addEventListener("click", async () => {
+    if (!confirm("Sign out of the administrator account?")) return;
+
+    try {
+      const { error } = await client().auth.signOut();
+      if (error) throw error;
+      showLogin();
+      message("loginMessage", "You have signed out.", "success");
+    } catch (error) {
+      message("dashboardMessage", error.message || "Could not sign out.");
+    }
+  });
+
+  async function loadCompetitions() {
+    try {
+      const { data, error } = await client()
+        .from("competitions")
+        .select("id,name")
+        .order("created_at", { ascending:false });
+
+      if (error) throw error;
+
+      const select = $("competition");
+      const selected = select.value;
+
+      select.innerHTML =
+        '<option value="">No competition selected</option>' +
+        (data || []).map(item =>
+          '<option value="' + escapeHTML(item.id) + '">' +
+          escapeHTML(item.name) + '</option>'
+        ).join("");
+
+      if (selected) select.value = selected;
+    } catch (error) {
+      console.error("Competition list error:", error);
+    }
+  }
+
+  function profileURL(id) {
+    return new URL(
+      "./participant.html?id=" + encodeURIComponent(id),
+      window.location.href
+    ).href;
+  }
+
+  function renderParticipants() {
+    const list = $("participantList");
+
+    if (!participants.length) {
+      list.innerHTML =
+        '<div class="card"><h3>No participants saved yet</h3>' +
+        '<p class="muted">Use the form above to add a participant.</p></div>';
+      return;
+    }
+
+    list.innerHTML = participants.map(item => {
+      const profile = profileURL(item.id);
+      const media = [
+        item.photo_url ? "Picture" : "",
+        item.audio_url ? "Audio" : "",
+        item.video_url ? "Video" : ""
+      ].filter(Boolean).join(", ") || "No media uploaded";
+
+      return `
+        <article class="card">
+          ${item.photo_url
+            ? `<img src="${escapeHTML(item.photo_url)}" alt="Participant picture">`
+            : ""}
+          <span class="badge">${item.published ? "PUBLISHED" : "DRAFT — PRIVATE"}</span>
+          <h3>${escapeHTML(item.stage_name || item.full_name)}</h3>
+          <p><strong>Full name:</strong> ${escapeHTML(item.full_name)}</p>
+          <p><strong>Media:</strong> ${escapeHTML(media)}</p>
+          <div class="buttons">
+            <button type="button" class="secondary edit" data-id="${escapeHTML(item.id)}">EDIT</button>
+            <button type="button" class="share" data-url="${escapeHTML(profile)}">COPY PROFILE LINK</button>
+            <button type="button" class="danger delete" data-id="${escapeHTML(item.id)}">DELETE</button>
+          </div>
+          <p class="profilelink">Profile link: ${escapeHTML(profile)}</p>
+        </article>
+      `;
+    }).join("");
+
+    list.querySelectorAll(".edit").forEach(button => {
+      button.addEventListener("click", () => editParticipant(button.dataset.id));
+    });
+
+    list.querySelectorAll(".share").forEach(button => {
+      button.addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText(button.dataset.url);
+          message("formMessage", "Profile link copied. You can now share it.", "success");
+        } catch {
+          window.prompt("Copy this profile link:", button.dataset.url);
+        }
+      });
+    });
+
+    list.querySelectorAll(".delete").forEach(button => {
+      button.addEventListener("click", () => deleteParticipant(button.dataset.id));
+    });
+  }
+
+  async function loadParticipants() {
+    if (!authorized(user)) return;
+
+    $("participantList").innerHTML = '<p class="muted">Loading participants...</p>';
+
+    try {
+      const { data, error } = await client()
+        .from("participants")
+        .select("*")
+        .order("created_at", { ascending:false });
+
+      if (error) throw error;
+
+      participants = data || [];
+      renderParticipants();
+    } catch (error) {
+      $("participantList").innerHTML = "";
+      message("formMessage", "Could not load participants: " + error.message);
+    }
+  }
+
+  function editParticipant(id) {
+    const item = participants.find(row => row.id === id);
+    if (!item) return;
+
+    $("participantId").value = item.id;
+    $("competition").value = item.competition_id || "";
+    $("fullName").value = item.full_name || "";
+    $("stageName").value = item.stage_name || "";
+    $("bio").value = item.bio || "";
+    $("published").value = String(!!item.published);
+
+    $("photo").value = "";
+    $("audio").value = "";
+    $("video").value = "";
+
+    $("formTitle").textContent = "Edit Participant";
+    $("saveButton").textContent = "UPDATE PARTICIPANT";
+
+    message("formMessage", "Editing participant. Leave a media field empty to keep its existing file.", "success");
+    $("participantForm").scrollIntoView({ behavior:"smooth", block:"start" });
+  }
+
+  function clearForm() {
+    $("participantForm").reset();
+    $("participantId").value = "";
+    $("published").value = "false";
+    $("formTitle").textContent = "Add Participant";
+    $("saveButton").textContent = "SAVE PARTICIPANT";
+    clearMessage("formMessage");
+  }
+
+  $("clearButton").addEventListener("click", clearForm);
+
+  const acceptedTypes = {
+    photo:["image/jpeg","image/png","image/webp","image/gif"],
+    audio:["audio/mpeg","audio/mp3","audio/mp4","audio/aac","audio/ogg","audio/wav","audio/webm"],
+    video:["video/mp4","video/webm","video/quicktime"]
+  };
+
+  async function uploadMedia(file, kind) {
+    if (!file) return "";
+
+    if (file.size > MAX_BYTES) {
+      throw new Error(file.name + " exceeds the 50 MB limit.");
+    }
+
+    if (!acceptedTypes[kind].includes(file.type)) {
+      throw new Error("Unsupported " + kind + " file type: " + (file.type || "unknown"));
+    }
+
+    const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+    const path = user.id + "/" + crypto.randomUUID() + "-" + safeName;
+
+    const { data, error } = await client()
+      .storage
+      .from(BUCKET)
+      .upload(path, file, {
+        cacheControl:"3600",
+        upsert:false,
+        contentType:file.type
+      });
+
+    if (error) throw error;
+
+    const { data: publicData } = client()
+      .storage
+      .from(BUCKET)
+      .getPublicUrl(data.path);
+
+    return publicData.publicUrl;
+  }
+
+  $("participantForm").addEventListener("submit", async event => {
+    event.preventDefault();
+    clearMessage("formMessage");
+
+    if (!authorized(user)) {
+      message("formMessage", "Please sign in as the authorized administrator.");
+      return;
+    }
+
+    const fullName = $("fullName").value.trim();
+    if (!fullName) {
+      message("formMessage", "Enter the participant's full name.");
+      return;
+    }
+
+    const button = $("saveButton");
+    const oldId = $("participantId").value.trim();
+    const old = participants.find(item => item.id === oldId) || {};
+
+    button.disabled = true;
+    button.textContent = "SAVING...";
+
+    try {
+      const photoFile = $("photo").files[0];
+      const audioFile = $("audio").files[0];
+      const videoFile = $("video").files[0];
+
+      const photoURL = photoFile
+        ? await uploadMedia(photoFile, "photo")
+        : (old.photo_url || "");
+
+      const audioURL = audioFile
+        ? await uploadMedia(audioFile, "audio")
+        : (old.audio_url || "");
+
+      const videoURL = videoFile
+        ? await uploadMedia(videoFile, "video")
+        : (old.video_url || "");
+
+      const payload = {
+        competition_id: $("competition").value || null,
+        full_name: fullName,
+        stage_name: $("stageName").value.trim(),
+        bio: $("bio").value.trim(),
+        photo_url: photoURL,
+        audio_url: audioURL,
+        video_url: videoURL,
+        published: $("published").value === "true",
+        updated_at: new Date().toISOString()
+      };
+
+      const result = oldId
+        ? await client().from("participants").update(payload).eq("id", oldId).select().single()
+        : await client().from("participants").insert(payload).select().single();
+
+      if (result.error) throw result.error;
+
+      const saved = result.data;
+      clearForm();
+
+      if (saved.published) {
+        message(
+          "formMessage",
+          "Participant saved and published. Share this link: " + profileURL(saved.id),
+          "success"
+        );
+      } else {
+        message(
+          "formMessage",
+          "Participant saved as a private draft. Change Profile Visibility to Published when ready.",
+          "success"
+        );
+      }
+
+      await loadParticipants();
+    } catch (error) {
+      console.error("Participant save error:", error);
+      message("formMessage", "Could not save participant: " + (error.message || "Unknown error"));
+    } finally {
+      button.disabled = false;
+      button.textContent = $("participantId").value ? "UPDATE PARTICIPANT" : "SAVE PARTICIPANT";
+    }
+  });
+
+  async function deleteParticipant(id) {
+    const item = participants.find(row => row.id === id);
+    if (!item) return;
+
+    if (!confirm('Permanently delete "' + (item.stage_name || item.full_name) + '"?')) return;
+
+    try {
+      const { error } = await client().from("participants").delete().eq("id", id);
+      if (error) throw error;
+
+      message("formMessage", "Participant deleted.", "success");
+      await loadParticipants();
+    } catch (error) {
+      message("formMessage", "Could not delete participant: " + error.message);
+    }
+  }
+
+  $("refreshButton").addEventListener("click", async () => {
+    await loadCompetitions();
+    await loadParticipants();
+  });
+
+  checkSession();
+})();
+</script>
+</body>
+</html>
